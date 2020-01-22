@@ -1,8 +1,8 @@
-import React, { useReducer, useEffect } from "react";
-import { TextInput, View, StyleSheet, Text } from "react-native";
+import React, { useReducer, useEffect } from 'react';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 
-const INPUT_CHANGE = "INPUT_CHANGE";
-const INPUT_BLUR = "INPUT_BLUR";
+const INPUT_CHANGE = 'INPUT_CHANGE';
+const INPUT_BLUR = 'INPUT_BLUR';
 
 const inputReducer = (state, action) => {
   switch (action.type) {
@@ -24,7 +24,7 @@ const inputReducer = (state, action) => {
 
 const Input = props => {
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: props.initialValue ? props.initialValue : "",
+    value: props.initialValue ? props.initialValue : '',
     isValid: props.initiallyValid,
     touched: false
   });
@@ -33,7 +33,7 @@ const Input = props => {
 
   useEffect(() => {
     if (inputState.touched) {
-      props.onInputChange(id, inputState.value, inputState.isValid);
+      onInputChange(id, inputState.value, inputState.isValid);
     }
   }, [inputState, onInputChange, id]);
 
@@ -58,7 +58,9 @@ const Input = props => {
     dispatch({ type: INPUT_CHANGE, value: text, isValid: isValid });
   };
 
-  const lostFocusHandler = () => {};
+  const lostFocusHandler = () => {
+    dispatch({ type: INPUT_BLUR });
+  };
 
   return (
     <View style={styles.formControl}>
@@ -81,24 +83,25 @@ const Input = props => {
 
 const styles = StyleSheet.create({
   formControl: {
-    width: "100%"
+    width: '100%'
   },
   label: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: 'Helvetica-Bold',
     marginVertical: 8
   },
   input: {
     paddingHorizontal: 2,
     paddingVertical: 5,
-    borderBottomColor: "#ccc",
+    borderBottomColor: '#ccc',
     borderBottomWidth: 1
   },
   errorContainer: {
-      marginVertical: 5
+    marginVertical: 5
   },
   errorText: {
-      color: 'red',
-      fontSize: 13
+    fontFamily: 'Helvetica',
+    color: 'red',
+    fontSize: 13
   }
 });
 

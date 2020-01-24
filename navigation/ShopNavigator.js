@@ -1,30 +1,32 @@
-import React from 'react';
+import React from "react";
 import {
   createStackNavigator,
   createDrawerNavigator,
+  createSwitchNavigator,
   createAppContainer
-} from 'react-navigation';
-import { Platform } from 'react-native';
+} from "react-navigation";
+import { Platform } from "react-native";
 
-import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
-import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
-import CartScreen from '../screens/shop/CartScreen';
-import OrdersScreen from '../screens/shop/OrdersScreen';
-import UserProductsScreen from '../screens/user/UserProductsScreen';
-import EditProductScreen from '../screens/user/EditProductScreen';
-import Colors from '../constants/Colors';
+import ProductsOverviewScreen from "../screens/shop/ProductsOverviewScreen";
+import ProductDetailScreen from "../screens/shop/ProductDetailScreen";
+import CartScreen from "../screens/shop/CartScreen";
+import OrdersScreen from "../screens/shop/OrdersScreen";
+import UserProductsScreen from "../screens/user/UserProductsScreen";
+import EditProductScreen from "../screens/user/EditProductScreen";
+import AuthScreen from "./../screens/user/AuthScreen";
+import Colors from "../constants/Colors";
 
 const defaultNavOptions = {
   headerStyle: {
-    backgroundColor: Platform.OS === 'android' ? Colors.primary : ''
+    backgroundColor: Platform.OS === "android" ? Colors.primary : ""
   },
   headerTitleStyle: {
-    fontFamily: 'Helvetica-Bold'
+    fontFamily: "Helvetica-Bold"
   },
   headerBackTitleStyle: {
-    fontFamily: 'Helvetica'
+    fontFamily: "Helvetica"
   },
-  headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primary
+  headerTintColor: Platform.OS === "android" ? "white" : Colors.primary
 };
 
 const ProductsNavigator = createStackNavigator(
@@ -41,20 +43,21 @@ const ProductsNavigator = createStackNavigator(
 const OrdersNavigator = createStackNavigator(
   {
     Orders: OrdersScreen
-  },{
+  },
+  {
     defaultNavigationOptions: defaultNavOptions
   }
 );
 
 const AdminNavigator = createStackNavigator(
-    {
-      UserProducts: UserProductsScreen,
-      EditProduct: EditProductScreen
-    },
-    {
-      defaultNavigationOptions: defaultNavOptions
-    }
-  );
+  {
+    UserProducts: UserProductsScreen,
+    EditProduct: EditProductScreen
+  },
+  {
+    defaultNavigationOptions: defaultNavOptions
+  }
+);
 
 const ShopNavigator = createDrawerNavigator(
   {
@@ -69,4 +72,18 @@ const ShopNavigator = createDrawerNavigator(
   }
 );
 
-export default createAppContainer(ShopNavigator);
+const AuthNavigator = createStackNavigator(
+  {
+    Auth: AuthScreen
+  },
+  {
+    defaultNavigationOptions: defaultNavOptions
+  }
+);
+
+const MainNavigator = createSwitchNavigator({
+  Auth: AuthNavigator,
+  Shop: ShopNavigator
+});
+
+export default createAppContainer(MainNavigator);
